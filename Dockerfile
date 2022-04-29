@@ -9,6 +9,9 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
+RUN npm install
+
+COPY . .
 
 RUN cp .env.example .env
 
@@ -16,9 +19,6 @@ RUN sed -i "/TYPEORM_USERNAME=/c\DTYPEORM_USERNAME=\"$TYPEORM_USERNAME\"" .env
 RUN sed -i "/TYPEORM_PASSWORD=/c\TYPEORM_PASSWORD=\"$TYPEORM_DATABASE\"" .env
 RUN sed -i "/TYPEORM_DATABASE=/c\TYPEORM_DATABASE=\"$TYPEORM_DATABASE\"" .env
 
-RUN npm install
-
-COPY . .
 
 RUN npm run build
 
