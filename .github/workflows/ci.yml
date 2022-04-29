@@ -43,8 +43,9 @@ jobs:
         DOCKER_PASS: ${{secrets.DOCKERHUB_PASS}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASS
+    
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag juansedo/tuya-credit-be:latest
-      
+      run: docker build --build-arg TYPEORM_USERNAME="${{secrets.MARIADB_USER}}" --build-arg TYPEORM_PASSWORD="${{secrets.MARIADB_PASSWORD}}" --build-arg TYPEORM_DATABASE="${{secrets.MARIADB_DATABASE}}" --file Dockerfile --tag  juansedo/tuya-credit-be:latest .      
+    
     - name: Docker Push
       run: docker push juansedo/tuya-credit-be
