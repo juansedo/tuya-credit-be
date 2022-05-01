@@ -46,7 +46,7 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASS
     
     - name: Build the Docker image
-      run: docker build --build-arg TYPEORM_USERNAME="${{secrets.RDS_MARIADB_USER}}" --build-arg TYPEORM_PASSWORD="${{secrets.RDS_MARIADB_PASS}}" --build-arg TYPEORM_DATABASE="${{secrets.MARIADB_DATABASE}}" --build-arg TYPEORM_HOST="${{secrets.RDS_MARIADB_HOST}}" --file Dockerfile --tag  juansedo/tuya-credit-be:latest
+      run: docker build --build-arg TYPEORM_USERNAME="${{secrets.RDS_MARIADB_USER}}" --build-arg TYPEORM_PASSWORD="${{secrets.RDS_MARIADB_PASS}}" --build-arg TYPEORM_DATABASE="${{secrets.MARIADB_DATABASE}}" --build-arg TYPEORM_HOST="${{secrets.RDS_MARIADB_HOST}}" --file Dockerfile --tag juansedo/tuya-credit-be:latest .
     
     - name: Docker Push
       run: docker push juansedo/tuya-credit-be
