@@ -20,6 +20,7 @@ RUN cp .env.example .env
 # RUN sed -i "/TYPEORM_DATABASE=/c\TYPEORM_DATABASE=\"$TYPEORM_DATABASE\"" .env
 
 RUN npm run build
+RUN cat .env
 RUN npm run migrations:run
 #RUN npm run migrations:drop
 
