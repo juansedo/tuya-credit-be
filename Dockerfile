@@ -21,7 +21,7 @@ RUN cp .env.example .env
 
 RUN npm run build
 RUN npm run migrations:run
-
+#RUN npm run migrations:drop
 
 EXPOSE 3000
 
