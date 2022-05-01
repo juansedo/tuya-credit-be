@@ -1,28 +1,20 @@
 version: '3'
 
 services:
-  mariadb:
-    container_name: mariadb-tuya
-    image: mariadb:10.6
-    ports:
-      - 3306:3306
+  watchtower:
+    image: v2tec/watchtower
     volumes:
-      - ~/apps/mysql:/var/lib/mysql
-    environment:
-      - MARIADB_ROOT_PASSWORD=root
-      - MARIADB_PASSWORD=root
-      - MARIADB_USER=app_user
-      - MARIADB_DATABASE=app_db
-  adminer:
-    container_name: adminer-tuya
-    image: adminer:4
-    ports:
-      - 5000:8080
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
   tuya_backend:
     container_name: backend-tuya
-    build: tuya-credit-be
+    image: juansedo/tuya-credit-be:latest
     restart: unless-stopped
     ports:
+      - 80:80
       - 3000:3000
-    depends_on:
-      - mariadb
+    environment:
+      - TYPEORM_HOST=
+      - TYPEORM_USERNAME=
+      - TYPEORM_PASSWORD=
+      - TYPEORM_DATABASE=
