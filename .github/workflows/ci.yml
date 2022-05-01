@@ -20,6 +20,7 @@ jobs:
   build:
     name: Ubuntu latest with Node.js
     runs-on: ubuntu-latest
+    container: node:16
     strategy:
       matrix:
         node-version: [ 16.x ]
