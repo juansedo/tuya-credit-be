@@ -23,9 +23,8 @@ RUN sed -i "/TYPEORM_DATABASE=/c\TYPEORM_DATABASE=\"$TYPEORM_DATABASE\"" .env
 RUN sed -i "/TYPEORM_HOST=/c\TYPEORM_HOST=\"$TYPEORM_HOST\"" .env
 
 RUN npm run build
-RUN cat .env
-#RUN npm run migrations:run
-RUN npm run migrations:drop
+
+RUN npm run migrations:run
 
 EXPOSE 3000
 
