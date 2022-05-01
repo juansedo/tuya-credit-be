@@ -9,7 +9,6 @@ on:
       - master
       - release/*
       - dev
-      - sanhidalgoo/containers
   pull_request:
     branches: 
       - master
