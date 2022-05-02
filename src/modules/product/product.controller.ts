@@ -2,11 +2,13 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
   ParseIntPipe,
   Post,
+  Put,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -62,7 +64,7 @@ export class ProductController {
     status: 201,
     description: 'Product created successfully',
   })
-  @Post('/create')
+  @Post('/')
   async create(@Body() data: ProductDto) {
     const product = await this.productService.create(data);
     return {
@@ -80,7 +82,7 @@ export class ProductController {
     status: 404,
     description: 'Product not found',
   })
-  @Post('/:id/update')
+  @Put('/:id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateProductDto) {
     const product = await this.productService.update(id, data);
     return {
@@ -98,7 +100,7 @@ export class ProductController {
     status: 404,
     description: 'Product not found',
   })
-  @Post('/:id/remove')
+  @Delete('/:id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.productService.destroy(id);
     return {

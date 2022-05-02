@@ -2,10 +2,12 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
   Post,
+  Put,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -67,7 +69,7 @@ export class UserController {
     status: 409,
     description: 'User document already exists',
   })
-  @Post('/create')
+  @Post('/')
   async create(@Body() data: UserDto) {
     const user = await this.userService.create(data);
     return {
@@ -91,7 +93,7 @@ export class UserController {
     status: 404,
     description: 'User not found',
   })
-  @Post('/:id/update')
+  @Put('/:id')
   async update(@Param('id') id: string, @Body() data: UpdateUserDto) {
     const user = await this.userService.update(id, data);
     return {
@@ -115,7 +117,7 @@ export class UserController {
     status: 404,
     description: 'User not found',
   })
-  @Post('/:id/remove')
+  @Delete('/:id')
   async remove(@Param('id') id: string) {
     await this.userService.destroy(id);
     return {

@@ -2,11 +2,13 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
   ParseIntPipe,
   Post,
+  Put,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
@@ -40,7 +42,7 @@ export class CardListController {
     };
   }
 
-  @Post('/create')
+  @Post('/')
   async create(@Body() data: CreditCardDto) {
     const card = await this.cardListService.create(data);
     return {
@@ -50,7 +52,7 @@ export class CardListController {
     };
   }
 
-  @Post('/:id/update')
+  @Put('/:id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateCreditCardDto) {
     const card = await this.cardListService.update(id, data);
     return {
@@ -60,7 +62,7 @@ export class CardListController {
     };
   }
 
-  @Post('/:id/remove')
+  @Delete('/:id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.cardListService.destroy(id);
     return {
