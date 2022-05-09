@@ -33,14 +33,15 @@
               <img src="{{imageUrl}}" width="180px" />
             </div>
           </div>
-          <div id="qrcode-{{@index}}"></div>
+          <div id="qrcode-{{@index}}">{{id}}</div>
         </div>
       {{/each}}
     </div>
     <script type="text/javascript">
       for (let i = 0; i < {{products.length}}; i++) {
         var div = document.getElementById("qrcode-" + i);
-        var text = '{{baseUrl}}' + '/products/' + i;
+        var text = '{{baseUrl}}' + '/products/' + div.innerText;
+        div.innerText = "";
         new QRCode(div, {
           text: text,
           width: 150,
