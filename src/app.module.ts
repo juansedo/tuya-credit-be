@@ -7,9 +7,10 @@ import { CardListModule } from './modules/card-list/card-list.module';
 import { ProductModule } from './modules/product/product.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './authentication/auth.module';
+import { CommonConfigModule } from './config/common/config.module';
 
 @Module({
-  imports: [MariadbDatabaseProviderModule, CardListModule, ProductModule, UserModule, AuthModule],
+  imports: [CommonConfigModule, MariadbDatabaseProviderModule, CardListModule, ProductModule, UserModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
