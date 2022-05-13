@@ -12,4 +12,12 @@ export class JwtConfigService {
   get secret(): string {
     return this.configService.get<string>('jwt.secret');
   }
+
+  get refreshExpires(): string {
+    return this.configService.get<string>('jwt.refreshExpires');
+  }
+
+  get refreshSecret(): string {
+    return this.configService.get<string>('jwt.refreshSecret');
+  }
 }

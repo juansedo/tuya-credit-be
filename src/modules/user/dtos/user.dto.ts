@@ -19,4 +19,8 @@ export class UserDto {
   @IsString()
   @IsOptional()
   userKey?: string;
+
+  @IsString()
+  @IsOptional()
+  refreshToken?: string;
 }

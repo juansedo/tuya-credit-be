@@ -8,9 +8,11 @@ import {
   BaseEntity,
   BeforeInsert,
   Unique,
+  BeforeUpdate,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CreditCard } from '../../card-list/entities/credit-card.entity';
+import { createHmac } from 'crypto';
 
 @Entity({ name: 'users' })
 @Unique(['document'])
@@ -68,9 +70,23 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar' })
   userKey: string;
 
+  @Column({ nullable: true })
+  @Exclude()
+  refreshToken: string;
+
   @BeforeInsert()
   emailToLowerCase() {
     this.email = this.email.toLowerCase();
+  }
+
+  @BeforeUpdate()
+  async setRefreshTokenHash(refreshToken: string) {
+    if (refreshToken) {
+      const salt = await bcrypt.genSalt();
+      const hasher = createHmac('sha256', process.env.REFRESH_JWT_SECRET);
+      const key = hasher.update(refreshToken).digest('hex');
+      this.refreshToken = await bcrypt.hash(key, salt);
+    }
   }
 
   @BeforeInsert()
