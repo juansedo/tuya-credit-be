@@ -13,6 +13,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { CreditCard } from '../../card-list/entities/credit-card.entity';
 import { createHmac } from 'crypto';
+import Permission from 'src/common/constants/permission';
 
 @Entity({ name: 'users' })
 @Unique(['document'])
@@ -53,8 +54,8 @@ export class User extends BaseEntity {
   /**
    * User password
    */
-  @Exclude()
   @Column({ type: 'varchar' })
+  @Exclude()
   password: string;
 
   /**
@@ -70,6 +71,20 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar' })
   userKey: string;
 
+  /**
+   * Array with user permissions
+   */
+  @Column({
+    type: 'set',
+    enum: Permission,
+    default: [Permission.USER],
+  })
+  @Exclude()
+  public permissions: Permission[];
+
+  /**
+   * User valid refresh token
+   */
   @Column({ nullable: true })
   @Exclude()
   refreshToken: string;
