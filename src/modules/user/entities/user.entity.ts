@@ -13,7 +13,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { CreditCard } from '../../card-list/entities/credit-card.entity';
 import { createHmac } from 'crypto';
-import Permission from 'src/common/constants/permission';
+import Permission from '../../../common/constants/permission';
 
 @Entity({ name: 'users' })
 @Unique(['document'])

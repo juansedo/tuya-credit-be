@@ -3,6 +3,7 @@ import { Factory, Seeder } from 'typeorm-seeding';
 import { Product } from '../../modules/product/entities/product.entity';
 import { CreditCard } from '../../modules/card-list/entities/credit-card.entity';
 import { User } from '../../modules/user/entities/user.entity';
+import Permission from '../../common/constants/permission';
 
 export default class DatabaseSeeder implements Seeder {
   public async run(factory: Factory): Promise<void> {
@@ -17,6 +18,7 @@ export default class DatabaseSeeder implements Seeder {
       password: 'jsdiazo',
       document: '100200300',
       userKey: 'ABCD',
+      permissions: [Permission.USER, Permission.ADMIN],
     }).save();
     User.create({
       name: 'David',
@@ -25,6 +27,7 @@ export default class DatabaseSeeder implements Seeder {
       password: 'dcalleg',
       document: '100200301',
       userKey: 'EFGH',
+      permissions: [Permission.USER, Permission.ADMIN],
     }).save();
     User.create({
       name: 'Santiago',
@@ -33,6 +36,7 @@ export default class DatabaseSeeder implements Seeder {
       password: 'sanhidalgoo1',
       document: '100200302',
       userKey: 'IJKL',
+      permissions: [Permission.USER, Permission.ADMIN],
     }).save();
     User.create({
       name: 'Julián',
@@ -41,6 +45,7 @@ export default class DatabaseSeeder implements Seeder {
       password: 'jriosv',
       document: '100200303',
       userKey: 'OMNP',
+      permissions: [Permission.USER, Permission.ADMIN],
     }).save();
     User.create({
       name: 'Hector',
@@ -49,6 +54,7 @@ export default class DatabaseSeeder implements Seeder {
       password: 'hfbanilatq',
       document: '100200304',
       userKey: 'QRST',
+      permissions: [Permission.USER, Permission.ADMIN],
     }).save();
     User.create({
       name: 'Camilo',
@@ -57,6 +63,7 @@ export default class DatabaseSeeder implements Seeder {
       password: 'jcjimenezr',
       document: '100200305',
       userKey: 'UVWX',
+      permissions: [Permission.USER, Permission.ADMIN],
     }).save();
 
     const users = await factory(User)().createMany(10);
