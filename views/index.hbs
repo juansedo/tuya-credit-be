@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        font-family: 'Poppins', sans-serif;
+      }
+
+      div>canvas {
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/easyqrcodejs@4.4.10/dist/easy.qrcode.min.js"></script>
+    <title>App</title>
+  </head>
+  <body>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+      {{#each products}}
+        <div style="margin: 0.5rem; padding: 0.8rem; border-radius: 10px; box-shadow: 0px 0px 20px 2px rgb(0,0,0);">
+          <div style="display: flex; height: 250px;">
+            <div style="margin: 0 1rem; max-width: 150px;">
+              <h2 style="margin: 0;">{{name}}</h2>
+              <i style="font-size: 10px;">Ref: {{ref}}</i>
+              <p><strong>Price (COP)</strong> {{originalPrice}}</p>
+              <p>Almacén: {{provider}}</p>
+            </div>
+            <div style="display: flex; flex-direction:column; justify-content: center; align-items: center;">
+              <img src="{{imageUrl}}" width="180px" />
+            </div>
+          </div>
+          <div id="qrcode-{{@index}}">{{id}}</div>
+        </div>
+      {{/each}}
+    </div>
+    <script type="text/javascript">
+      for (let i = 0; i < {{products.length}}; i++) {
+        var div = document.getElementById("qrcode-" + i);
+        var text = '{{baseUrl}}' + '/products/' + div.innerText;
+        div.innerText = "";
+        new QRCode(div, {
+          text: text,
+          width: 150,
+          height: 150,
+        });
+      }
+    </script>
+  </body>
+</html>

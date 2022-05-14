@@ -16,6 +16,9 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
 import { ApiBearerAuth, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { Permissions } from 'src/common/decorators/permissions.decorator';
+import Permission from 'src/common/constants/permission';
 
 @ApiTags('Users')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -27,6 +30,9 @@ export class UserController {
     status: 200,
     description: 'All users fetched successfully',
   })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.ADMIN)
   @Get('/')
   async findAll() {
     const users = await this.userService.findAll();
@@ -51,6 +57,9 @@ export class UserController {
     status: 404,
     description: 'User not found',
   })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.USER)
   @Get('/:id')
   async findOne(@Param('id') id: string) {
     const product = await this.userService.findOne(id);
@@ -69,6 +78,9 @@ export class UserController {
     status: 409,
     description: 'User document already exists',
   })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.ADMIN)
   @Post('/')
   async create(@Body() data: UserDto) {
     const user = await this.userService.create(data);
@@ -93,6 +105,9 @@ export class UserController {
     status: 404,
     description: 'User not found',
   })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.ADMIN)
   @Put('/:id')
   async update(@Param('id') id: string, @Body() data: UpdateUserDto) {
     const user = await this.userService.update(id, data);
@@ -117,6 +132,9 @@ export class UserController {
     status: 404,
     description: 'User not found',
   })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.ADMIN)
   @Delete('/:id')
   async remove(@Param('id') id: string) {
     await this.userService.destroy(id);
@@ -132,7 +150,6 @@ export class UserController {
     description: 'User document',
     type: Number,
   })
-  @ApiBearerAuth()
   @ApiResponse({
     status: 200,
     description: 'User cards fetched successfully (can be empty)',
@@ -141,7 +158,9 @@ export class UserController {
     status: 404,
     description: 'User not found',
   })
-  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.USER)
   @Get('/:id/cards')
   async getCards(@Param('id') id: string) {
     const cards = await this.userService.getCards(id);

@@ -1,4 +1,5 @@
 import { IsEmail, IsOptional, IsString } from 'class-validator';
+import Permission from 'src/common/constants/permission';
 
 export class UserDto {
   @IsString()
@@ -19,4 +20,11 @@ export class UserDto {
   @IsString()
   @IsOptional()
   userKey?: string;
+
+  @IsOptional()
+  permissions?: Permission[];
+
+  @IsString()
+  @IsOptional()
+  refreshToken?: string;
 }
