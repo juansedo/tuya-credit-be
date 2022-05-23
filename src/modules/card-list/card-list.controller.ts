@@ -9,12 +9,17 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CardListService } from './card-list.service';
 import { CreditCardDto } from './dtos/credit-card.dto';
 import { UpdateCreditCardDto } from './dtos/update-credit-card.dto';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
+import { PermissionsGuard } from 'src/common/guards/permissions.guard';
+import { Permissions } from 'src/common/decorators/permissions.decorator';
+import Permission from 'src/common/constants/permission';
 
 @ApiTags('Card List')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -22,6 +27,8 @@ import { UpdateCreditCardDto } from './dtos/update-credit-card.dto';
 export class CardListController {
   constructor(private cardListService: CardListService) {}
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.ADMIN)
   @Get('/')
   async findAll() {
     const cards = await this.cardListService.findAll();
@@ -32,6 +39,8 @@ export class CardListController {
     };
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.ADMIN)
   @Get('/:id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const card = await this.cardListService.findOne(id);
@@ -42,6 +51,8 @@ export class CardListController {
     };
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.ADMIN)
   @Post('/')
   async create(@Body() data: CreditCardDto) {
     const card = await this.cardListService.create(data);
@@ -52,6 +63,8 @@ export class CardListController {
     };
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.ADMIN)
   @Put('/:id')
   async update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateCreditCardDto) {
     const card = await this.cardListService.update(id, data);
@@ -62,6 +75,8 @@ export class CardListController {
     };
   }
 
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.ADMIN)
   @Delete('/:id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.cardListService.destroy(id);
