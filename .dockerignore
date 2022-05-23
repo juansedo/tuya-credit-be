@@ -1,7 +1,11 @@
-Dockerfile
+# Folders
 node_modules/
+.github/
+.git/
+
+# Files
+Dockerfile
 README.md
 .prettierrc
 .eslintrc.js
 .gitignore
-.github/

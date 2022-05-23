@@ -18,3 +18,4 @@ services:
       - TYPEORM_USERNAME=
       - TYPEORM_PASSWORD=
       - TYPEORM_DATABASE=
+      - BACKEND_BASE_URL=
