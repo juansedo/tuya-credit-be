@@ -11,7 +11,6 @@ export class Product extends BaseEntity {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
-  @Exclude()
   @PrimaryGeneratedColumn()
   id: number;
 
