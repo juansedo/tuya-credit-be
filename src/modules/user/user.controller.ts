@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -40,6 +41,49 @@ export class UserController {
       statusCode: HttpStatus.OK,
       message: 'All users fetched successfully',
       data: users,
+    };
+  }
+
+  @ApiResponse({
+    status: 200,
+    description: 'User fetched successfully',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found (JWT token is not valid)',
+  })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.USER)
+  @Get('/me')
+  async getMe(@Req() req) {
+    const { user } = req;
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'User fetched successfully',
+      data: user,
+    };
+  }
+
+  @ApiResponse({
+    status: 200,
+    description: 'User cards fetched successfully (can be empty)',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found (JWT token is not valid)',
+  })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, PermissionsGuard)
+  @Permissions(Permission.USER)
+  @Get('/cards')
+  async getCards(@Req() req) {
+    const { user } = req;
+    const cards = await this.userService.getCards(user.document);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'User cards fetched successfully',
+      data: cards,
     };
   }
 
@@ -141,33 +185,6 @@ export class UserController {
     return {
       statusCode: HttpStatus.OK,
       message: 'User deleted successfully',
-    };
-  }
-
-  @ApiParam({
-    name: 'id',
-    required: true,
-    description: 'User document',
-    type: Number,
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'User cards fetched successfully (can be empty)',
-  })
-  @ApiResponse({
-    status: 404,
-    description: 'User not found',
-  })
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard, PermissionsGuard)
-  @Permissions(Permission.USER)
-  @Get('/:id/cards')
-  async getCards(@Param('id') id: string) {
-    const cards = await this.userService.getCards(id);
-    return {
-      statusCode: HttpStatus.OK,
-      message: 'User cards fetched successfully',
-      data: cards,
     };
   }
 }
